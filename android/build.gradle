@@ -89,6 +89,9 @@ dependencies {
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
+  implementation "androidx.appcompat:appcompat:${getExtOrDefault("appcompatVersion")}'"                //必须 1.0.0 以上
+  implementation  'io.github.scwang90:refresh-layout-kernel:2.0.6'      //核心必须依赖
+  implementation  'io.github.scwang90:refresh-header-classics:2.0.6'    //经典刷新头
 }
 
 if (isNewArchitectureEnabled()) {

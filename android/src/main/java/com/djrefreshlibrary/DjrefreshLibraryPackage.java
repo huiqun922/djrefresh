@@ -17,6 +17,11 @@ public class DjrefreshLibraryPackage implements ReactPackage {
 
   @Override
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-    return Arrays.<ViewManager>asList(new DjrefreshLibraryViewManager());
+    return Arrays.<ViewManager>asList(
+      new DjrefreshLibraryViewManager(),
+      new DJRefreshLayoutManager(),
+      new DJRefreshDefaultHeaderManager(),
+      new DJRefreshHeaderManager()
+      );
   }
 }
