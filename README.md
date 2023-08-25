@@ -1,6 +1,7 @@
 # react-native-djrefresh-library
 
 pull to refresh with flatlist
+iOS with MJRefresh,Android with SmartRefreshLayout
 
 ## Installation
 

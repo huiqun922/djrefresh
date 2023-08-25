@@ -53,6 +53,7 @@ export default function App() {
           renderItem={({ item }) => <Item title={item.title} />}
           keyExtractor={(item) => item.id}
           refreshControl={
+            // default header
             // <DJRefreshDefaultHeader
             //   refreshing={refreshing}
             //   onRefresh={() => {
@@ -64,6 +65,8 @@ export default function App() {
             //     }, 3000);
             //   }}
             // />
+
+            //custom header
             <DJRefreshHeader
               refreshHeader={
                 <View style={{ height: 55 }}>
