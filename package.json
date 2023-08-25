@@ -1,6 +1,6 @@
 {
   "name": "react-native-djrefresh-library",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "pull to refresh with flatlist",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
