@@ -11,11 +11,58 @@ npm install react-native-djrefresh-library
 ## Usage
 
 ```js
-import { DjrefreshLibraryView } from "react-native-djrefresh-library";
+import {
+  DJRefreshDefaultHeader,
+  DJRefreshHeader,
+} from 'react-native-djrefresh-library';
 
 // ...
 
-<DjrefreshLibraryView color="tomato" />
+  <FlatList
+          contentInsetAdjustmentBehavior="never"
+          automaticallyAdjustContentInsets={false}
+          style={styles.list}
+          data={DATA}
+          renderItem={({ item }) => <Item title={item.title} />}
+          keyExtractor={(item) => item.id}
+          refreshControl={
+            // default header
+            // <DJRefreshDefaultHeader
+            //   refreshing={refreshing}
+            //   onRefresh={() => {
+            //     console.log('开始刷新');
+            //     setRefreshing(true);
+            //     setTimeout(() => {
+            //       console.log('结束刷新');
+            //       setRefreshing(false);
+            //     }, 3000);
+            //   }}
+            // />
+
+            //custom header
+            <DJRefreshHeader
+              refreshHeader={
+                <View style={{ height: 55 }}>
+                  <LottieView
+                    style={{ width: '100%', height: 55 }}
+                    source={require('./assets/animation_llq8e2yb.json')}
+                    autoPlay
+                    loop
+                  />
+                </View>
+              }
+              refreshing={refreshing}
+              onRefresh={() => {
+                console.log('开始刷新');
+                setRefreshing(true);
+                setTimeout(() => {
+                  console.log('结束刷新');
+                  setRefreshing(false);
+                }, 3000);
+              }}
+            />
+          }
+        />
 ```
 
 ## Contributing
