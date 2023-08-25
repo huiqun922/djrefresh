@@ -1,4 +1,7 @@
+import type { ViewStyle } from 'react-native';
+
 export interface IRefreshProps {
+  style?: ViewStyle;
   refreshing?: boolean;
   enable?: boolean;
   onRefresh?: Function; // 刷新中
@@ -9,3 +12,14 @@ export interface IRefreshProps {
   refreshHeader?: React.ReactElement;
   forwardedRef?: any;
 }
+
+export type DJRefreshNativeProps = {
+  style?: ViewStyle;
+  enable?: boolean | undefined;
+  refreshing?: boolean | undefined;
+  onChangeOffset?: Function;
+  onChangeState?: Function;
+  headerHeight?: number;
+  refreshHeader?: React.ReactElement;
+  children?: React.ReactNode;
+};

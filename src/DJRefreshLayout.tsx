@@ -1,29 +1,12 @@
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  type PropsWithChildren,
-} from 'react';
+import React, { useCallback, useRef, type PropsWithChildren } from 'react';
 import {
   PanResponder,
   requireNativeComponent,
   View,
   StyleSheet,
-  type ViewStyle,
 } from 'react-native';
 import DJRefreshState from './DJRefreshState';
-import type { IRefreshProps } from './IRefreshProps';
-
-type DJRefreshLayoutProps = {
-  style: ViewStyle;
-  enable: boolean | undefined;
-  refreshing: boolean | undefined;
-  onChangeOffset: Function;
-  onChangeState: Function;
-  headerHeight: number;
-  refreshHeader?: React.ReactElement;
-  children: React.ReactNode;
-};
+import type { DJRefreshNativeProps, IRefreshProps } from './IRefreshProps';
 
 const RefreshLayout = (props: PropsWithChildren<IRefreshProps>) => {
   const {
@@ -82,28 +65,13 @@ const RefreshLayout = (props: PropsWithChildren<IRefreshProps>) => {
     [onChangeOffset]
   );
 
-  //获取子组件中的高度
-  //在其依赖的变量发生改变时执行
-  const build = useMemo(() => {
-    let height = 0;
-    const newChildren = React.Children.map(children, (element) => {
-      if (!React.isValidElement(element) || !enable) {
-        return element;
-      }
-      // const flattenStyle = StyleSheet.flatten(
-      //   element.props && element.props.style ? element.props : {}
-      // );
-      height = element.props?.style?.height;
-      return element;
-    });
-    return {
-      children: newChildren,
-      headerHeight: height,
-    };
-  }, [children, enable]);
-
   console.log('子组件类型6: ', children);
   console.log('子组件类型7: ', refreshHeader);
+
+  const headerHeight =
+    refreshHeader?.props?.children?.props?.style?.height ?? 0;
+
+  console.log('子组件类型8: ', headerHeight);
 
   return (
     <View style={styles.layoutStyle}>
@@ -115,9 +83,9 @@ const RefreshLayout = (props: PropsWithChildren<IRefreshProps>) => {
         refreshing={refreshing}
         onChangeOffset={offsetCallback}
         onChangeState={onChangeState}
-        headerHeight={build.headerHeight}
+        headerHeight={headerHeight}
       >
-        {build.children}
+        {children}
         {refreshHeader}
       </DJNativeRefreshLayout>
     </View>
@@ -127,12 +95,12 @@ const RefreshLayout = (props: PropsWithChildren<IRefreshProps>) => {
 const styles = StyleSheet.create({
   layoutStyle: {
     flex: 1,
-    //overflow: 'hidden',
+    overflow: 'hidden',
   },
 });
 
 const DJNativeRefreshLayout =
-  requireNativeComponent<DJRefreshLayoutProps>('DJRefreshLayout');
+  requireNativeComponent<DJRefreshNativeProps>('DJRefreshLayout');
 
 const MemoRefreshLayout = React.memo(RefreshLayout);
 

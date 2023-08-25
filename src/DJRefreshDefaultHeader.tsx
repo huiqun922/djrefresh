@@ -1,7 +1,16 @@
-import { requireNativeComponent } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import { Text, View } from 'react-native';
+import type { IRefreshProps } from './IRefreshProps';
+import React from 'react';
 
-export const DJRefreshDefaultHeader = requireNativeComponent(
-  'DJRefreshDefaultHeader'
-);
+const DJRefreshDefaultHeader: React.FC<IRefreshProps> = () => {
+  return (
+    <View style={{ alignSelf: 'flex-start' }}>
+      <Text style={{ color: 'red' }}>
+        React Native Refresh does not support this platform.
+      </Text>
+    </View>
+  );
+};
 
-export default DJRefreshDefaultHeader;
+export default React.memo(DJRefreshDefaultHeader);

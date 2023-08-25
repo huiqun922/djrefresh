@@ -1,38 +1,17 @@
-import React, { useMemo } from 'react';
-import {
-  StyleSheet,
-  requireNativeComponent,
-  type ViewStyle,
-} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
+import { View, Text } from 'react-native';
+import type { IRefreshProps } from './IRefreshProps';
 
-type DJRefresHeaderProps = {
-  style: ViewStyle;
-  children: React.ReactNode;
-};
-
-const RefreshHeader: React.FC = (props: any) => {
-  const { children, style } = props;
-
-  const buildStyles = useMemo(() => {
-    const flattenStyle = StyleSheet.flatten(style ? style : {});
-    if (!flattenStyle.height) {
-      console.warn('style中必须设置固定高度');
-    }
-    return {
-      style: flattenStyle,
-    };
-  }, [style]);
-
+const RefreshHeader: React.FC = () => {
   return (
-    <DJRefreshHeader style={buildStyles.style}>{children}</DJRefreshHeader>
+    <View style={{ alignSelf: 'flex-start' }}>
+      <Text style={{ color: 'red' }}>
+        React Native Refresh does not support this platform.
+      </Text>
+    </View>
   );
 };
 
-const DJRefreshHeader =
-  requireNativeComponent<DJRefresHeaderProps>('DJRefreshHeader');
-
-const MemoRefreshHeader = React.memo<any>(RefreshHeader);
-
-MemoRefreshHeader.displayName = 'DJRefreshHeader';
-
+const MemoRefreshHeader = React.memo<IRefreshProps>(RefreshHeader);
 export default MemoRefreshHeader;
