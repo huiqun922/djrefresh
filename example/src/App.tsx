@@ -43,7 +43,7 @@ export default function App() {
   const [refreshing, setRefreshing] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.list}>
         <FlatList
           contentInsetAdjustmentBehavior="never"
@@ -66,12 +66,13 @@ export default function App() {
             // />
             <DJRefreshHeader
               refreshHeader={
-                <View style={{ height: 50, backgroundColor: 'red' }}>
-                  {/* <LottieView
-                    source={require('./assets/loading.json')}
+                <View style={{ height: 55 }}>
+                  <LottieView
+                    style={{ width: '100%', height: 55 }}
+                    source={require('./assets/animation_llq8e2yb.json')}
                     autoPlay
                     loop
-                  /> */}
+                  />
                 </View>
               }
               refreshing={refreshing}
@@ -87,7 +88,7 @@ export default function App() {
           }
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
