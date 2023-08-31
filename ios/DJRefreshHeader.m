@@ -10,6 +10,11 @@
 @implementation DJRefreshHeader
 @synthesize onRefresh;
 
+-(void)prepare{
+    [super prepare];
+    self.autoresizingMask = UIViewAutoresizingNone;
+}
+
 - (void)setState:(MJRefreshState)state {
     [super setState:state];
     if (self.onChangeState) {

@@ -22,7 +22,6 @@ const DJRefreshDefaultHeader: React.FC<IRefreshProps> = (props) => {
 
   const onChangeState = useCallback(
     (event) => {
-      console.log('刷新状态发生改变: ', event.nativeEvent, onRefresh);
       const { state } = event.nativeEvent;
       if (currentState.current !== state) {
         currentState.current = state;
@@ -49,8 +48,6 @@ const DJRefreshDefaultHeader: React.FC<IRefreshProps> = (props) => {
     [onChangeOffset]
   );
 
-  console.log('refreshing ios', refreshing);
-
   return (
     <DJNativeRefreshDefaultHeader
       refreshing={refreshing}
@@ -67,7 +64,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 50,
-    width: '100%',
   },
 });
 

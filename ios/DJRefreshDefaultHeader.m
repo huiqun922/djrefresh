@@ -10,10 +10,11 @@
 @implementation DJRefreshDefaultHeader
 @synthesize onRefresh;
 
-//- (void)setScrollView:(UIScrollView *)scrollView{
-//    _scrollView = scrollView;
-//    _scrollView.mj_header = self;
-//}
+
+-(void)prepare{
+    [super prepare];
+    self.autoresizingMask = UIViewAutoresizingNone;
+}
 
 - (void)setState:(MJRefreshState)state {
     [super setState:state];

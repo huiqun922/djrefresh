@@ -15,7 +15,6 @@ const RefreshHeader: React.FC<IRefreshProps> = (props) => {
     onEndRefresh,
     onIdleRefresh,
     onChangeOffset,
-    style,
   } = props;
 
   const currentState = useRef(1);
@@ -23,7 +22,6 @@ const RefreshHeader: React.FC<IRefreshProps> = (props) => {
 
   const onChangeState = useCallback(
     (event) => {
-      console.log('ios 刷新状态发生改变: ', event.nativeEvent, onRefresh);
       const { state } = event.nativeEvent;
       if (currentState.current !== state) {
         currentState.current = state;
@@ -49,8 +47,6 @@ const RefreshHeader: React.FC<IRefreshProps> = (props) => {
     },
     [onChangeOffset]
   );
-
-  console.log('refreshing ios', style?.height);
 
   return (
     <DJNativeRefreshHeader

@@ -4,17 +4,15 @@ import * as React from 'react';
 import {
   FlatList,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import {
-  DJRefreshDefaultHeader,
   DJRefreshHeader,
+  DJRefreshDefaultHeader
 } from 'react-native-djrefresh-library';
 import { useState } from 'react';
-import LottieView from 'lottie-react-native';
 
 const DATA = [
   {
@@ -53,31 +51,8 @@ export default function App() {
           renderItem={({ item }) => <Item title={item.title} />}
           keyExtractor={(item) => item.id}
           refreshControl={
-            // default header
-            // <DJRefreshDefaultHeader
-            //   refreshing={refreshing}
-            //   onRefresh={() => {
-            //     console.log('开始刷新');
-            //     setRefreshing(true);
-            //     setTimeout(() => {
-            //       console.log('结束刷新');
-            //       setRefreshing(false);
-            //     }, 3000);
-            //   }}
-            // />
-
-            //custom header
-            <DJRefreshHeader
-              refreshHeader={
-                <View style={{ height: 55 }}>
-                  <LottieView
-                    style={{ width: '100%', height: 55 }}
-                    source={require('./assets/animation_llq8e2yb.json')}
-                    autoPlay
-                    loop
-                  />
-                </View>
-              }
+           // default header
+            <DJRefreshDefaultHeader
               refreshing={refreshing}
               onRefresh={() => {
                 console.log('开始刷新');
@@ -88,6 +63,29 @@ export default function App() {
                 }, 3000);
               }}
             />
+
+            //custom header
+            // <DJRefreshHeader
+            //   refreshHeader={
+            //     <View style={{ height: 55 }}>
+            //       <LottieView
+            //         style={{ width: '100%', height: 55 }}
+            //         source={require('./assets/animation_llq8e2yb.json')}
+            //         autoPlay
+            //         loop
+            //       />
+            //     </View>
+            //   }
+            //   refreshing={refreshing}
+            //   onRefresh={() => {
+            //     console.log('开始刷新');
+            //     setRefreshing(true);
+            //     setTimeout(() => {
+            //       console.log('结束刷新');
+            //       setRefreshing(false);
+            //     }, 3000);
+            //   }}
+            // />
           }
         />
       </View>
@@ -108,7 +106,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    width: '100%',
+    width: 200,
     backgroundColor: '#f0f0f0',
   },
   item: {

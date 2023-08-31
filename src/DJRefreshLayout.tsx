@@ -38,7 +38,7 @@ const RefreshLayout = (props: PropsWithChildren<IRefreshProps>) => {
 
   const onChangeState = useCallback(
     (event) => {
-      console.log('刷新状态发生改变: ', event.nativeEvent, onRefresh);
+      //console.log('刷新状态发生改变: ', event.nativeEvent, onRefresh);
       const { state } = event.nativeEvent;
       if (currentState.current !== state) {
         currentState.current = state;
@@ -64,15 +64,8 @@ const RefreshLayout = (props: PropsWithChildren<IRefreshProps>) => {
     },
     [onChangeOffset]
   );
-
-  console.log('子组件类型6: ', children);
-  console.log('子组件类型7: ', refreshHeader);
-
   const headerHeight =
     refreshHeader?.props?.children?.props?.style?.height ?? 0;
-
-  console.log('子组件类型8: ', headerHeight);
-
   return (
     <View style={styles.layoutStyle}>
       <DJNativeRefreshLayout

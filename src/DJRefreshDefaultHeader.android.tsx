@@ -17,8 +17,6 @@ const DJRefreshDefaultHeader: React.FC<IRefreshProps> = (props) => {
 
   const onIdleRefreshCallBack = useCallback(() => {}, []);
 
-  console.log('refreshing', refreshing);
-
   return (
     <DJRefreshLayout
       enable={true}

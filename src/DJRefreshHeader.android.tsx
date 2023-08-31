@@ -21,8 +21,6 @@ const RefreshHeader: React.FC<IRefreshProps> = (props) => {
 
   const onIdleRefreshCallBack = useCallback(() => {}, []);
 
-  console.log('refreshing', refreshing);
-
   const buildStyles = useMemo(() => {
     const flattenStyle = StyleSheet.flatten(style ? style : {});
     if (!flattenStyle.height) {
