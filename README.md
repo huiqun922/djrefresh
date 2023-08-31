@@ -12,7 +12,7 @@ npm install react-native-djrefresh-library
 ## Usage
 ### ios
 ```sh
-cd ios & pod install 
+cd ios & pod install
 ```
 ```js
 import {
