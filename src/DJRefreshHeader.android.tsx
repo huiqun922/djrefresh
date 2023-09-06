@@ -1,14 +1,5 @@
-import React, {
-  useCallback,
-  useMemo,
-  type PropsWithChildren,
-  Children,
-} from 'react';
-import {
-  StyleSheet,
-  requireNativeComponent,
-  type ViewStyle,
-} from 'react-native';
+import React, { useCallback, type PropsWithChildren } from 'react';
+import { requireNativeComponent, type ViewStyle } from 'react-native';
 import DJRefreshLayout from './DJRefreshLayout';
 import type { IRefreshProps } from './IRefreshProps';
 
