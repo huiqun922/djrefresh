@@ -2,6 +2,7 @@ import type { ViewStyle } from 'react-native';
 
 export interface IRefreshProps {
   style?: ViewStyle;
+  headerStyle?: ViewStyle;
   refreshing?: boolean;
   enable?: boolean;
   onRefresh?: Function; // 刷新中

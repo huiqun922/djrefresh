@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, type PropsWithChildren } from 'react';
 import { StyleSheet, requireNativeComponent } from 'react-native';
 import type { DJRefreshNativeProps, IRefreshProps } from './IRefreshProps';
 import DJRefreshState from './DJRefreshState';
@@ -6,7 +6,7 @@ import DJRefreshState from './DJRefreshState';
 const DJNativeRefreshHeader =
   requireNativeComponent<DJRefreshNativeProps>('DJRefreshHeader');
 
-const RefreshHeader: React.FC<IRefreshProps> = (props) => {
+const RefreshHeader = (props: PropsWithChildren<IRefreshProps>) => {
   const {
     refreshHeader,
     refreshing,

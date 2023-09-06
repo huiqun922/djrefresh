@@ -1,4 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  type PropsWithChildren,
+  Children,
+} from 'react';
 import {
   StyleSheet,
   requireNativeComponent,
@@ -12,24 +17,14 @@ type DJRefresHeaderProps = {
   children: React.ReactNode;
 };
 
-const RefreshHeader: React.FC<IRefreshProps> = (props) => {
-  const { refreshing, onRefresh, children, style, refreshHeader } = props;
+const RefreshHeader = (props: PropsWithChildren<IRefreshProps>) => {
+  const { refreshing, onRefresh, children, headerStyle, refreshHeader } = props;
 
   const onPullingRefreshCallBack = useCallback(() => {}, []);
 
   const onEndRefreshCallBack = useCallback(() => {}, []);
 
   const onIdleRefreshCallBack = useCallback(() => {}, []);
-
-  const buildStyles = useMemo(() => {
-    const flattenStyle = StyleSheet.flatten(style ? style : {});
-    if (!flattenStyle.height) {
-      console.warn('style中必须设置固定高度');
-    }
-    return {
-      style: flattenStyle,
-    };
-  }, [style]);
 
   return (
     <DJRefreshLayout
@@ -40,7 +35,7 @@ const RefreshHeader: React.FC<IRefreshProps> = (props) => {
       onEndRefresh={onEndRefreshCallBack}
       onIdleRefresh={onIdleRefreshCallBack}
       refreshHeader={
-        <DJNativeRefreshHeader style={buildStyles.style}>
+        <DJNativeRefreshHeader style={headerStyle ?? {}}>
           {refreshHeader}
         </DJNativeRefreshHeader>
       }

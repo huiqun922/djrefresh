@@ -1,5 +1,5 @@
 import { requireNativeComponent } from 'react-native';
-import { useCallback } from 'react';
+import { useCallback, type PropsWithChildren } from 'react';
 import React from 'react';
 import DJRefreshLayout from './DJRefreshLayout';
 import type { IRefreshProps } from './IRefreshProps';
@@ -8,7 +8,7 @@ const DJNativeRefreshDefaultHeader = requireNativeComponent<any>(
   'DJRefreshDefaultHeader'
 );
 
-const DJRefreshDefaultHeader: React.FC<IRefreshProps> = (props) => {
+const DJRefreshDefaultHeader = (props: PropsWithChildren<IRefreshProps>) => {
   const { refreshing, onRefresh, children } = props;
 
   const onPullingRefreshCallBack = useCallback(() => {}, []);
