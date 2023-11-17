@@ -65,6 +65,7 @@
         [self setTitle:@"松开立即刷新" forState:MJRefreshStatePulling];
         [self setTitle:@"正在刷新..." forState:MJRefreshStateRefreshing];
     }
+    [self setLastUpdatedTimeKey:MJRefreshHeaderLastUpdatedTimeKey];
 }
 
 - (void)setLastUpdatedTimeKey:(NSString *)lastUpdatedTimeKey
