@@ -25,7 +25,7 @@ const DJRefreshDefaultHeader = (props: PropsWithChildren<IRefreshProps>) => {
       onRefresh={onRefresh}
       onEndRefresh={onEndRefreshCallBack}
       onIdleRefresh={onIdleRefreshCallBack}
-      refreshHeader={<DJNativeRefreshDefaultHeader />}
+      refreshHeader={<DJNativeRefreshDefaultHeader locale={props.locale} />}
     >
       {children}
     </DJRefreshLayout>

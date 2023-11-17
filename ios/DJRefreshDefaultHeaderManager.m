@@ -24,6 +24,7 @@ RCT_EXPORT_VIEW_PROPERTY(refreshing, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(onRefresh, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onChangeState, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onChangeOffset, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(locale, NSString)
 
 
 @end

@@ -49,4 +49,82 @@
     }
 }
 
+- (void)setLocale:(NSString *)locale{
+    _locale = locale;
+    [self textConfiguration];
+}
+
+- (void)textConfiguration {
+    // 初始化文字
+    if([self.locale containsString:@"en"]){
+        [self setTitle:@"Pull to refresh" forState:MJRefreshStateIdle];
+        [self setTitle:@"Release to refresh" forState:MJRefreshStatePulling];
+        [self setTitle:@"Refreshing..." forState:MJRefreshStateRefreshing];
+    }else{
+        [self setTitle:@"下拉可以刷新" forState:MJRefreshStateIdle];
+        [self setTitle:@"松开立即刷新" forState:MJRefreshStatePulling];
+        [self setTitle:@"正在刷新..." forState:MJRefreshStateRefreshing];
+    }
+}
+
+- (void)setLastUpdatedTimeKey:(NSString *)lastUpdatedTimeKey
+{
+    [super setLastUpdatedTimeKey:lastUpdatedTimeKey];
+    
+    // 如果label隐藏了，就不用再处理
+    if (self.lastUpdatedTimeLabel.hidden) return;
+    
+    NSDate *lastUpdatedTime = [[NSUserDefaults standardUserDefaults] objectForKey:lastUpdatedTimeKey];
+    
+    // 如果有block
+    if (self.lastUpdatedTimeText) {
+        self.lastUpdatedTimeLabel.text = self.lastUpdatedTimeText(lastUpdatedTime);
+        return;
+    }
+    
+    NSString *MJRefreshHeaderLastTimeText= @"最后更新：";
+    NSString *MJRefreshHeaderDateTodayText= @"今天";
+    NSString *MJRefreshHeaderNoneLastDateText= @"无记录";
+
+    if([self.locale containsString:@"en"]){
+        
+        MJRefreshHeaderLastTimeText= @"Last update: ";
+        MJRefreshHeaderDateTodayText= @"Toady";
+        MJRefreshHeaderNoneLastDateText= @"No record";
+    }
+    
+    if (lastUpdatedTime) {
+        // 1.获得年月日
+        NSCalendar *calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+        NSUInteger unitFlags = NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute;
+        NSDateComponents *cmp1 = [calendar components:unitFlags fromDate:lastUpdatedTime];
+        NSDateComponents *cmp2 = [calendar components:unitFlags fromDate:[NSDate date]];
+        
+        // 2.格式化日期
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        BOOL isToday = NO;
+        if ([cmp1 day] == [cmp2 day]) { // 今天
+            formatter.dateFormat = @" HH:mm";
+            isToday = YES;
+        } else if ([cmp1 year] == [cmp2 year]) { // 今年
+            formatter.dateFormat = @"MM-dd HH:mm";
+        } else {
+            formatter.dateFormat = @"yyyy-MM-dd HH:mm";
+        }
+        NSString *time = [formatter stringFromDate:lastUpdatedTime];
+        
+        // 3.显示日期
+        self.lastUpdatedTimeLabel.text = [NSString stringWithFormat:@"%@%@%@",
+                                          MJRefreshHeaderLastTimeText,
+                                          isToday ?MJRefreshHeaderDateTodayText : @"",
+                                          time];
+    } else {
+        self.lastUpdatedTimeLabel.text = [NSString stringWithFormat:@"%@%@",
+                                          MJRefreshHeaderLastTimeText,
+                                          MJRefreshHeaderNoneLastDateText];
+    }
+}
+
+
+
 @end

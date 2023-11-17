@@ -12,6 +12,7 @@ export interface IRefreshProps {
   onChangeOffset?: Function;
   refreshHeader?: React.ReactElement;
   forwardedRef?: any;
+  locale?: string; //en zh
 }
 
 export type DJRefreshNativeProps = {
@@ -23,4 +24,5 @@ export type DJRefreshNativeProps = {
   headerHeight?: number;
   refreshHeader?: React.ReactElement;
   children?: React.ReactNode;
+  locale?: string; //en zh
 };

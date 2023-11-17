@@ -54,6 +54,7 @@ const DJRefreshDefaultHeader = (props: PropsWithChildren<IRefreshProps>) => {
       onChangeOffset={offsetCallback}
       onChangeState={onChangeState}
       style={styles.positionStyle}
+      locale={props.locale}
     />
   );
 };

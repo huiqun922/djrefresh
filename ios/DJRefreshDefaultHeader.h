@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) MJRefreshState preState;
 @property (nonatomic, copy) RCTDirectEventBlock onChangeState;
 @property (nonatomic, copy) RCTDirectEventBlock onChangeOffset;
+@property (nonatomic, strong) NSString *locale;
 
 @end
 

@@ -1,13 +1,22 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {
   DJRefreshHeader,
   DJRefreshDefaultHeader,
 } from 'react-native-djrefresh-library';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LottieView from 'lottie-react-native';
+import { Header } from '@rneui/themed';
+import { Button } from '@rneui/base';
 
 const DATA = [
   {
@@ -32,7 +41,7 @@ const Item = ({ title }: ItemProps) => (
   </View>
 );
 
-export default function App() {
+export function AppFlatList() {
   const [refreshing, setRefreshing] = useState(false);
 
   return (
@@ -84,6 +93,85 @@ export default function App() {
             />
           }
         />
+      </View>
+    </SafeAreaView>
+  );
+}
+
+export default function App() {
+  const [refreshing, setRefreshing] = useState(false);
+  const [locale, setLocale] = useState('');
+
+  useEffect(() => {
+    setRefreshing(true);
+  }, []);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Header centerComponent={<Text>111</Text>} />
+      <View style={styles.list}>
+        <ScrollView
+          // contentInsetAdjustmentBehavior="never"
+          // automaticallyAdjustContentInsets={false}
+          style={styles.list}
+          refreshControl={
+            // default header
+            <DJRefreshDefaultHeader
+              refreshing={refreshing}
+              locale={locale}
+              onRefresh={() => {
+                console.log('开始刷新');
+                setRefreshing(true);
+                setTimeout(() => {
+                  console.log('结束刷新');
+                  setRefreshing(false);
+                }, 3000);
+              }}
+            />
+
+            //custom header
+            // <DJRefreshHeader
+            //   headerStyle={{ height: 55 }}
+            //   refreshHeader={
+            //     <View style={{ height: 55 }}>
+            //       <LottieView
+            //         style={{ width: '100%', height: 55 }}
+            //         source={require('./assets/animation_llq8e2yb.json')}
+            //         autoPlay
+            //         loop
+            //       />
+            //     </View>
+            //   }
+            //   refreshing={refreshing}
+            //   onRefresh={() => {
+            //     console.log('开始刷新');
+            //     setRefreshing(true);
+            //     setTimeout(() => {
+            //       console.log('结束刷新');
+            //       setRefreshing(false);
+            //     }, 3000);
+            //   }}
+            // />
+          }
+        >
+          <View style={{ height: 200, backgroundColor: 'red' }} />
+          <View style={{ height: 200, backgroundColor: 'yellow' }}>
+            <Button
+              title={'切换语言EN'}
+              onPress={() => {
+                setLocale('en');
+              }}
+            />
+          </View>
+          <View style={{ height: 200, backgroundColor: 'red' }}>
+            <Button
+              title={'切换语言ZH'}
+              onPress={() => {
+                setLocale('zh');
+              }}
+            />
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
