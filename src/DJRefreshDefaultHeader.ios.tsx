@@ -21,7 +21,7 @@ const DJRefreshDefaultHeader = (props: PropsWithChildren<IRefreshProps>) => {
   const offsetRef = useRef(0);
 
   const onChangeState = useCallback(
-    (event) => {
+    (event: any) => {
       const { state } = event.nativeEvent;
       if (currentState.current !== state) {
         currentState.current = state;
@@ -40,7 +40,7 @@ const DJRefreshDefaultHeader = (props: PropsWithChildren<IRefreshProps>) => {
   );
 
   const offsetCallback = useCallback(
-    (event) => {
+    (event: any) => {
       const { offset } = event.nativeEvent;
       offsetRef.current = offset;
       onChangeOffset && onChangeOffset(event);

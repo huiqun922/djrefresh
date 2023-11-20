@@ -13,6 +13,8 @@
 
 -(void)prepare{
     [super prepare];
+    self.stateLabel.hidden = YES;
+    self.lastUpdatedTimeLabel.hidden = YES;
     self.autoresizingMask = UIViewAutoresizingNone;
 }
 

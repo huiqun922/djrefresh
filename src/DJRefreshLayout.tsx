@@ -8,6 +8,9 @@ import {
 import DJRefreshState from './DJRefreshState';
 import type { DJRefreshNativeProps, IRefreshProps } from './IRefreshProps';
 
+const DJNativeRefreshLayout =
+  requireNativeComponent<DJRefreshNativeProps>('DJRefreshLayout');
+
 const RefreshLayout = (props: PropsWithChildren<IRefreshProps>) => {
   const {
     children,
@@ -37,7 +40,7 @@ const RefreshLayout = (props: PropsWithChildren<IRefreshProps>) => {
   );
 
   const onChangeState = useCallback(
-    (event) => {
+    (event: any) => {
       //console.log('刷新状态发生改变: ', event.nativeEvent, onRefresh);
       const { state } = event.nativeEvent;
       if (currentState.current !== state) {
@@ -57,7 +60,7 @@ const RefreshLayout = (props: PropsWithChildren<IRefreshProps>) => {
   );
 
   const offsetCallback = useCallback(
-    (event) => {
+    (event: any) => {
       const { offset } = event.nativeEvent;
       offsetRef.current = offset;
       onChangeOffset && onChangeOffset(event);
@@ -78,8 +81,8 @@ const RefreshLayout = (props: PropsWithChildren<IRefreshProps>) => {
         onChangeState={onChangeState}
         headerHeight={headerHeight}
       >
-        {children}
         {refreshHeader}
+        {children}
       </DJNativeRefreshLayout>
     </View>
   );
@@ -92,13 +95,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const DJNativeRefreshLayout =
-  requireNativeComponent<DJRefreshNativeProps>('DJRefreshLayout');
-
-const MemoRefreshLayout = React.memo(RefreshLayout);
-
 const DJRefreshLayout = React.forwardRef((props: any, ref) => (
-  <MemoRefreshLayout forwardedRef={ref} {...props} />
+  <RefreshLayout forwardedRef={ref} {...props} />
 ));
 
 DJRefreshLayout.displayName = 'DJRefreshLayout';

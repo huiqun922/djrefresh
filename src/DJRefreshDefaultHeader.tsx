@@ -13,4 +13,4 @@ const DJRefreshDefaultHeader: React.FC<IRefreshProps> = () => {
   );
 };
 
-export default React.memo(DJRefreshDefaultHeader);
+export default DJRefreshDefaultHeader;
