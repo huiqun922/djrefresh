@@ -15,6 +15,7 @@
     [super prepare];
     self.stateLabel.hidden = YES;
     self.lastUpdatedTimeLabel.hidden = YES;
+    self.loadingView.color = [UIColor colorWithRed:0x20/255.f green:0x22/255.f blue:0x23/255.f alpha:1];
     self.autoresizingMask = UIViewAutoresizingNone;
 }
 
