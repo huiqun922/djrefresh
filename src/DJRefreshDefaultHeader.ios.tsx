@@ -14,11 +14,9 @@ const DJRefreshDefaultHeader = (props: PropsWithChildren<IRefreshProps>) => {
     onRefresh,
     onEndRefresh,
     onIdleRefresh,
-    onChangeOffset,
   } = props;
 
   const currentState = useRef(1);
-  const offsetRef = useRef(0);
 
   const onChangeState = useCallback(
     (event: any) => {
@@ -39,19 +37,9 @@ const DJRefreshDefaultHeader = (props: PropsWithChildren<IRefreshProps>) => {
     [onEndRefresh, onIdleRefresh, onPullingRefresh, onRefresh]
   );
 
-  const offsetCallback = useCallback(
-    (event: any) => {
-      const { offset } = event.nativeEvent;
-      offsetRef.current = offset;
-      onChangeOffset && onChangeOffset(event);
-    },
-    [onChangeOffset]
-  );
-
   return (
     <DJNativeRefreshDefaultHeader
       refreshing={refreshing}
-      onChangeOffset={offsetCallback}
       onChangeState={onChangeState}
       style={styles.positionStyle}
       locale={props.locale}

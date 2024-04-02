@@ -1,10 +1,18 @@
 import React, { useCallback, useRef, type PropsWithChildren } from 'react';
-import { StyleSheet, requireNativeComponent } from 'react-native';
+import {
+  StyleSheet,
+  requireNativeComponent,
+  type NativeSyntheticEvent,
+} from 'react-native';
 import type { DJRefreshNativeProps, IRefreshProps } from './IRefreshProps';
 import DJRefreshState from './DJRefreshState';
 
 const DJNativeRefreshHeader =
   requireNativeComponent<DJRefreshNativeProps>('DJRefreshHeader');
+
+type RefreshState = {
+  state: number;
+};
 
 const RefreshHeader = (props: PropsWithChildren<IRefreshProps>) => {
   const {
@@ -14,14 +22,12 @@ const RefreshHeader = (props: PropsWithChildren<IRefreshProps>) => {
     onRefresh,
     onEndRefresh,
     onIdleRefresh,
-    onChangeOffset,
   } = props;
 
   const currentState = useRef(1);
-  const offsetRef = useRef(0);
 
   const onChangeState = useCallback(
-    (event) => {
+    (event: NativeSyntheticEvent<RefreshState>) => {
       const { state } = event.nativeEvent;
       if (currentState.current !== state) {
         currentState.current = state;
@@ -39,20 +45,10 @@ const RefreshHeader = (props: PropsWithChildren<IRefreshProps>) => {
     [onEndRefresh, onIdleRefresh, onPullingRefresh, onRefresh]
   );
 
-  const offsetCallback = useCallback(
-    (event) => {
-      const { offset } = event.nativeEvent;
-      offsetRef.current = offset;
-      onChangeOffset && onChangeOffset(event);
-    },
-    [onChangeOffset]
-  );
-
   return (
     <DJNativeRefreshHeader
       style={styles.positionStyle}
       refreshing={refreshing}
-      onChangeOffset={offsetCallback}
       onChangeState={onChangeState}
     >
       {refreshHeader}
