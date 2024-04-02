@@ -3,6 +3,8 @@
 pull to refresh with flatlist
 iOS with MJRefresh,Android with SmartRefreshLayout
 
+####android has some performance issues, recommend to use react-native RefreshControl
+
 ## Installation
 
 ```sh
