@@ -2,11 +2,13 @@
 import * as React from 'react';
 
 import {
+  Button,
   FlatList,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import {
@@ -14,9 +16,10 @@ import {
   DJRefreshDefaultHeader,
 } from 'react-native-djrefresh-library';
 import { useEffect, useState } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import LottieView from 'lottie-react-native';
-import { Header } from '@rneui/themed';
-import { Button } from '@rneui/base';
+import { TabView, SceneMap } from 'react-native-tab-view';
+import SwipeableList from './SwipeableList';
 
 const DATA = [
   {
@@ -41,11 +44,41 @@ const Item = ({ title }: ItemProps) => (
   </View>
 );
 
+const renderScene = SceneMap({
+  scoll: ScollApp,
+  list: AppFlatList,
+  swipe: SwipeableList,
+});
+
+export default function App() {
+  const layout = useWindowDimensions();
+
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'scoll', title: 'scoll' },
+    { key: 'list', title: 'list' },
+    { key: 'swipe', title: 'swipe' },
+  ]);
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaView style={styles.container}>
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          initialLayout={{ width: layout.width }}
+        />
+      </SafeAreaView>
+    </GestureHandlerRootView>
+  );
+}
+
 export function AppFlatList() {
   const [refreshing, setRefreshing] = useState(false);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
       <View style={styles.list}>
         <FlatList
           contentInsetAdjustmentBehavior="never"
@@ -98,7 +131,7 @@ export function AppFlatList() {
   );
 }
 
-export default function App() {
+export function ScollApp() {
   const [refreshing, setRefreshing] = useState(false);
   const [locale, setLocale] = useState('');
 
@@ -107,8 +140,7 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Header centerComponent={<Text>111</Text>} />
+    <SafeAreaView>
       <View style={styles.list}>
         <ScrollView
           // contentInsetAdjustmentBehavior="never"
@@ -179,9 +211,8 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
   },
   box: {
     width: 60,
@@ -189,7 +220,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   list: {
-    flex: 1,
+    height: '100%',
     width: '100%',
     backgroundColor: '#f0f0f0',
   },
