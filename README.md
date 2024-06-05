@@ -1,9 +1,9 @@
 # react-native-djrefresh-library
 
 pull to refresh with flatlist
-iOS with MJRefresh,Android with SmartRefreshLayout
+iOS with MJRefresh
+Android Native fork SwipeRefreshLayout
 
-#### android has some performance issues with react native gesture handler , recommend to use react-native RefreshControl
  
 ## Installation
 

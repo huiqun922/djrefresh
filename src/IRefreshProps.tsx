@@ -13,6 +13,8 @@ export interface IRefreshProps {
   refreshHeader?: React.ReactElement;
   forwardedRef?: any;
   locale?: string; //en zh
+  backgroundColor?: string;
+  iconColor?: string;
 }
 
 export type DJRefreshNativeProps = {
