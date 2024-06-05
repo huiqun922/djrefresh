@@ -2,90 +2,68 @@ package com.djrefreshlibrary;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.facebook.react.views.view.ReactViewGroup;
-import com.scwang.smart.refresh.layout.api.RefreshHeader;
-import com.scwang.smart.refresh.layout.api.RefreshKernel;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.constant.RefreshState;
-import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
 
-public class DJRefreshHeader extends ReactViewGroup implements RefreshHeader {
+public class DJRefreshHeader extends DJSwipeRefreshHeader  {
 
+  private View mChildren;
   public DJRefreshHeader(Context context) {
     super(context);
   }
 
-  @NonNull
   @Override
-  public View getView() {
-    return this; // 真实的视图就是自己，不能返回null
-  }
+  protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    super.onLayout(changed, l, t, r, b);
+    if (getChildCount() == 0) {
+      return;
+    }
+    if (mChildren == null) {
+      ensureChildren();
+    }
+    if (mChildren == null) {
+      return;
+    }
+    final int width = getMeasuredWidth();
+    final int height = getMeasuredHeight();
 
-  @NonNull
-  @Override
-  public SpinnerStyle getSpinnerStyle() {
-    return SpinnerStyle.Translate; // 指定为平移，不能null
-  }
-
-  @SuppressLint("RestrictedApi")
-  @Override
-  public void setPrimaryColors(int... colors) {
-
-  }
-
-  @SuppressLint("RestrictedApi")
-  @Override
-  public void onInitialized(@NonNull RefreshKernel kernel, int height, int maxDragHeight) {
-
-  }
-
-  @SuppressLint("RestrictedApi")
-  @Override
-  public void onMoving(boolean isDragging, float percent, int offset, int height, int maxDragHeight) {
-
-  }
-
-  @SuppressLint("RestrictedApi")
-  @Override
-  public void onReleased(@NonNull RefreshLayout refreshLayout, int height, int maxDragHeight) {
-
-  }
-
-  @SuppressLint("RestrictedApi")
-  @Override
-  public void onStartAnimator(@NonNull RefreshLayout refreshLayout, int height, int maxDragHeight) {
-
-  }
-
-  @SuppressLint("RestrictedApi")
-  @Override
-  public int onFinish(@NonNull RefreshLayout refreshLayout, boolean success) {
-    return 0;
-  }
-
-  @SuppressLint("RestrictedApi")
-  @Override
-  public void onHorizontalDrag(float percentX, int offsetX, int offsetMax) {
-
+    final int childLeft = getPaddingLeft();
+    final int childTop = getPaddingTop();
+    final int childWidth = width - getPaddingLeft() - getPaddingRight();
+    final int childHeight = height - getPaddingTop() - getPaddingBottom();
+    mChildren.layout(childLeft, childTop, childLeft + childWidth, childTop + childHeight);
   }
 
   @Override
-  public boolean isSupportHorizontalDrag() {
-    return false;
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    if (getChildCount() == 0) {
+      return;
+    }
+    if (mChildren == null) {
+      ensureChildren();
+    }
+    if (mChildren == null) {
+      return;
+    }
+    mChildren.measure(MeasureSpec.makeMeasureSpec(
+      getMeasuredWidth() - getPaddingLeft() - getPaddingRight(),
+      MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(
+      getMeasuredHeight() - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY));
   }
 
   @Override
-  public boolean autoOpen(int duration, float dragRate, boolean animationOnly) {
-    return false;
+  public void requestLayout() {
+    super.requestLayout();
   }
 
-  @SuppressLint("RestrictedApi")
-  @Override
-  public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
-
+  private void ensureChildren(){
+    if (mChildren == null) {
+      mChildren = getChildAt(0);
+    }
   }
 }

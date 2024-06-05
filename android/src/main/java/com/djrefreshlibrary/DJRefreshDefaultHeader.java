@@ -1,88 +1,93 @@
 package com.djrefreshlibrary;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.view.animation.Transformation;
+import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
+public class DJRefreshDefaultHeader extends DJSwipeRefreshHeader {
 
-import com.scwang.smart.refresh.header.ClassicsHeader;
-import com.scwang.smart.refresh.layout.api.RefreshHeader;
-import com.scwang.smart.refresh.layout.api.RefreshKernel;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.constant.RefreshState;
-import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
+  protected ImageView mArrowView;
+  protected ImageView mProgressView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+  protected ArrowDrawable mArrowDrawable;
+  protected ProgressDrawable mProgressDrawable;
 
-public class DJRefreshDefaultHeader extends ClassicsHeader {
+  private boolean hasRotate = false;
 
   public DJRefreshDefaultHeader(Context context) {
     super(context);
-  }
-  @NonNull
-  @Override
-  public View getView() {
-    return this;//真实的视图就是自己，不能返回null
+    final View thisView = inflate(context, R.layout.default_header_layout, this);
+    mArrowView = thisView.findViewById(R.id.header_arrow);
+    mProgressView = thisView.findViewById(R.id.header_progress);
+
+    mArrowDrawable = new ArrowDrawable();
+    mArrowDrawable.setColor(0xff666666);
+    mArrowView.setImageDrawable(mArrowDrawable);
+
+    mProgressDrawable = new ProgressDrawable();
+    mProgressDrawable.setColor(0xff666666);
+    mProgressView.setImageDrawable(mProgressDrawable);
   }
 
-  @NonNull
   @Override
-  public SpinnerStyle getSpinnerStyle() {
-    return SpinnerStyle.Translate;//指定为平移，不能null
+  public void onRefreshing() {
+    super.onRefreshing();
+
+    mArrowView.setRotation(0);
+    hasRotate = false;
+
+    mArrowView.setVisibility(View.INVISIBLE);
+    mProgressView.setVisibility(View.VISIBLE);
+    mProgressDrawable.start();
   }
 
-  public void setLocale(String locale) {
-    Log.e("DJRefresh",locale);
-    if(locale.contains("en")){
-      mTextPulling = "Pull to refresh";//"下拉可以刷新";
-      mTextRefreshing = "Refreshing";//"正在刷新...";
-      mTextLoading = "Loading";//"正在加载...";
-      mTextRelease = "Release to refresh";//"释放立即刷新";
-      mTextFinish = "Refresh Complete";//"刷新完成";
-      mTextFailed = "Failed";//"刷新失败";
-      mTextUpdate = "'Last update' M-d HH:mm";//"上次更新 M-d HH:mm";
-      mTextSecondary = "Release to refresh";//"释放进入二楼";
+  @Override
+  public void onFinished() {
+    super.onFinished();
+
+    mArrowView.setRotation(0);
+    hasRotate = false;
+
+    mArrowView.setVisibility(View.VISIBLE);
+    mProgressView.setVisibility(View.INVISIBLE);
+    mProgressDrawable.stop();
+  }
+
+  @Override
+  public void moveSpinner(float overscrollTop, float totalDragDistance) {
+    super.moveSpinner(overscrollTop, totalDragDistance);
+    if(overscrollTop > totalDragDistance){
+      if(!hasRotate){
+        hasRotate = true;
+        startRotateAnimation(0,180);
+      }
     }else {
-      mTextPulling = "下拉可以刷新";
-      mTextRefreshing = "正在刷新...";
-      mTextLoading = "正在加载...";
-      mTextRelease = "释放立即刷新";
-      mTextFinish = "刷新完成";
-      mTextFailed = "刷新失败";
-      mTextUpdate = "上次更新 M-d HH:mm";
-      mTextSecondary = "释放进入二楼";
+      if(hasRotate){
+        hasRotate = false;
+        startRotateAnimation(180,0);
+      }
     }
-    setTimeFormat(new SimpleDateFormat(mTextUpdate, Locale.getDefault()));
-//    mTitleText.setBackgroundColor(Color.parseColor("#FF0000"));
-    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTitleText.getLayoutParams();
-    params.width = dp2px(this.getContext(),160);
-    mTitleText.setLayoutParams(params);
-    mTitleText.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-    mTitleText.setGravity(Gravity.CENTER);
-
-    LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) mLastUpdateText.getLayoutParams();
-    params2.width = dp2px(this.getContext(),160);
-    mLastUpdateText.setLayoutParams(params2);
-    mLastUpdateText.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-    mLastUpdateText.setGravity(Gravity.CENTER);
   }
+
   @Override
-  public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
-
-    super.onStateChanged(refreshLayout,oldState,newState);
-
-    mTitleText.requestLayout();
+  public void finishSpinner(float overscrollTop, float totalDragDistance) {
+    super.finishSpinner(overscrollTop, totalDragDistance);
+    mArrowView.setRotation(0);
+    hasRotate = false;
+    if (overscrollTop > totalDragDistance) {
+      mArrowView.setVisibility(View.INVISIBLE);
+      mProgressView.setVisibility(View.VISIBLE);
+      mProgressDrawable.start();
+    }else{
+      mArrowView.setVisibility(View.VISIBLE);
+      mProgressView.setVisibility(View.INVISIBLE);
+      mProgressDrawable.stop();
+    }
   }
 
   public int px2dp(Context context, float pxValue) {
@@ -94,4 +99,16 @@ public class DJRefreshDefaultHeader extends ClassicsHeader {
     return (int) (dpValue * scale + 0.5f);
   }
 
+  private void startRotateAnimation(final int start, final int end) {
+    Animation rotate = new Animation() {
+      @Override
+      public void applyTransformation(float interpolatedTime, Transformation t) {
+        mArrowView.setRotation(
+          (int) (start + ((end - start) * interpolatedTime)));
+      }
+    };
+    rotate.setDuration(500);
+    mArrowView.clearAnimation();
+    mArrowView.startAnimation(rotate);
+  }
 }

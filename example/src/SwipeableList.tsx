@@ -1,7 +1,14 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { View, Animated, StyleSheet, Text, Alert } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { RectButton, FlatList } from 'react-native-gesture-handler';
+import {
+  View,
+  Animated,
+  StyleSheet,
+  Text,
+  Alert,
+  FlatList,
+} from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { DJRefreshDefaultHeader } from 'react-native-djrefresh-library';
 
@@ -22,17 +29,20 @@ const SwipeableList = () => {
 
   const [refreshing, setRefreshing] = useState(false);
 
-  const refreshAction = () => {
-    console.log('开始刷新');
+  const refreshAction = useCallback(() => {
+    console.log('开始刷新11');
     setRefreshing(true);
     setTimeout(() => {
-      console.log('结束刷新');
+      console.log('结束刷新11');
       setRefreshing(false);
     }, 3000);
-  };
+  }, []);
 
   useEffect(() => {
-    setRefreshing(true);
+    console.log('开始刷新 useEffect');
+    // setTimeout(() => {
+    //   setRefreshing(true);
+    // }, 3000);
   }, []);
 
   return (

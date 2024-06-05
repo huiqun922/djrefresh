@@ -64,6 +64,7 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
         <TabView
+          lazy
           navigationState={{ index, routes }}
           renderScene={renderScene}
           onIndexChange={setIndex}
@@ -87,6 +88,9 @@ export function AppFlatList() {
           data={DATA}
           renderItem={({ item }) => <Item title={item.title} />}
           keyExtractor={(item) => item.id}
+          onEndReached={() => {
+            console.log('到底了');
+          }}
           refreshControl={
             // default header
             // <DJRefreshDefaultHeader
@@ -203,6 +207,8 @@ export function ScollApp() {
               }}
             />
           </View>
+          <View style={{ height: 200, backgroundColor: 'yellow' }} />
+          <View style={{ height: 200, backgroundColor: 'red' }} />
         </ScrollView>
       </View>
     </SafeAreaView>
