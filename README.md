@@ -4,6 +4,9 @@ pull to refresh with flatlist
 iOS with MJRefresh
 Android Native fork SwipeRefreshLayout
 
+![](example/screenshot_android.gif.gif)
+
+
  
 ## Installation
 
